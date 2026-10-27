@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Landlord Countersignature - 9222 N 6th St Unit 1</title>
+<style>
+body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:auto;padding:14px;line-height:1.5;color:#222;background:#f6f7f9}
+.card{background:#fff;border-radius:10px;padding:16px;margin:12px 0;box-shadow:0 1px 4px #0002}
+h1{font-size:22px;text-align:center}h2{font-size:18px;border-bottom:2px solid #1565c0;padding-bottom:3px;margin-top:26px}
+table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}td,th{border:1px solid #ccc;padding:5px;vertical-align:top}
+.tbd{background:#fff3cd;color:#8a5a00;font-weight:600;padding:0 3px;border-radius:3px}
+.ini{background:#eef5ff;border:2px dashed #1565c0;border-radius:8px;padding:10px;margin:14px 0;font-weight:600}
+input,button{font-size:17px}input[type=text],input[type=tel],input[type=email],input[type=date],.initial{padding:8px;border:1px solid #999;border-radius:6px;box-sizing:border-box}
+.initial{width:80px;text-transform:uppercase;margin-left:6px}.full{width:100%;margin:4px 0 10px}
+canvas{border:3px dashed #1565c0;background:#fff;width:100%;height:180px;touch-action:none;border-radius:6px}
+.bad{border:2px solid #c62828!important;background:#ffebee!important}
+#go{background:#1565c0;color:#fff;border:0;border-radius:8px;padding:14px;width:100%;font-weight:700}
+#st{font-weight:700;color:#c62828}#lease{max-height:none}
+</style></head><body>
+<h1>Landlord Countersignature - Lease, 9222 N 6th St Unit 1 (Michael Zepeda)</h1>
+<div id="main"><form id="f" novalidate autocomplete="off"><div class="card">
+<p><strong>Lease version:</strong> <span id="ver"></span></p>
+<p>Countersigning the lease signed by the tenant. <a href="../" target="_blank" rel="noopener">Read the full lease</a></p>
+<label>Printed name<input type="text" name="landlord_printed_name" class="req full" value="Arthur Aguilar"></label>
+<label>Title<input type="text" name="landlord_title" class="req full" value="Manager, for 9222 N 6th, LLC or Pilar Polanco"></label>
+<label>Date<input type="date" name="countersigned_date" id="dt" class="req full"></label>
+<p style="color:#1565c0;font-weight:700;margin-bottom:4px">&#9997; Sign inside the box with your finger or mouse</p>
+<canvas id="sig"></canvas><button type="button" id="clr">Clear signature</button>
+<label style="display:block;margin:14px 0"><input type="checkbox" id="agree" style="transform:scale(1.5);margin-right:10px">I countersign this lease on behalf of the Landlord</label>
+<p id="st"></p><button type="submit" id="go">Submit Countersignature</button>
+</div></form></div>
+<div id="thanks" class="card" style="display:none;text-align:center"><h2>Thank you!</h2><p>Your countersignature was sent. You can close this page.</p></div>
+<script>
+const VERSION='lease-v2.4-streamlined-zepeda-9222N6th-U1-2026-10-27';ver.textContent=VERSION;
+const TEST=new URLSearchParams(location.search).has('test');
+const d=new Date();dt.value=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const c=sig,x=c.getContext('2d');let drew=false,down=false;
+function rs(){const b=c.getBoundingClientRect();c.width=b.width*2;c.height=b.height*2;x.scale(2,2);x.lineWidth=2.5;x.lineCap='round';x.lineJoin='round';x.strokeStyle='#000';drew=false}rs();
+const p=e=>{const b=c.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
+c.onpointerdown=e=>{down=true;c.setPointerCapture(e.pointerId);x.beginPath();x.moveTo(...p(e))};
+c.onpointermove=e=>{if(!down)return;x.lineTo(...p(e));x.stroke();drew=true};
+c.onpointerup=c.onpointercancel=()=>down=false;
+clr.onclick=()=>{x.clearRect(0,0,c.width,c.height);drew=false};
+f.onsubmit=async e=>{e.preventDefault();let bad=[];
+document.querySelectorAll('.req').forEach(i=>{const ok=i.value.trim()!=='';i.classList.toggle('bad',!ok);if(!ok)bad.push(i)});
+c.classList.toggle('bad',!drew);
+let msg=[];if(bad.length)msg.push('fill in every highlighted box');if(!agree.checked)msg.push('check "I countersign this lease"');if(!drew)msg.push('sign in the signature box');
+if(msg.length){st.textContent='Please '+msg.join(', ')+'.';return}
+st.style.color='#1565c0';st.textContent='Sending... please wait';go.disabled=true;
+const o=document.createElement('canvas');o.width=500;o.height=Math.round(500*c.height/c.width);const ox=o.getContext('2d');ox.fillStyle='#fff';ox.fillRect(0,0,o.width,o.height);ox.drawImage(c,0,0,o.width,o.height);
+const data={_subject:(TEST?'TEST - ':'')+'Landlord Countersignature - Zepeda - 9222 N 6th St Unit 1',_template:'table',_captcha:'false',lease_version:VERSION,lease_url:new URL('../',location.href).href,submitted_at:new Date().toString(),countersign_confirmed:'YES'};
+new FormData(f).forEach((v,k)=>data[k]=String(v).trim());
+data.landlord_signature=o.toDataURL('image/jpeg',0.7);data.user_agent=navigator.userAgent;
+try{const r=await fetch('https://formsubmit.co/ajax/sgtaguilar2@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});const j=await r.json();
+if(j.success===true||j.success==='true'){main.style.display='none';thanks.style.display='block';scrollTo(0,0)}else{st.style.color='#c62828';st.textContent='Problem sending: '+(j.message||r.status)+'. Please try again.';go.disabled=false}}
+catch(err){st.style.color='#c62828';st.textContent='Problem sending. Check your connection and try again.';go.disabled=false}};
+</script></body></html>
