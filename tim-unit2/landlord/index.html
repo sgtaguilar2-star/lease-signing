@@ -18,7 +18,7 @@ canvas{border:3px dashed #1565c0;background:#fff;width:100%;height:180px;touch-a
 <h1>Landlord Countersignature - Lease, 9222 N 6th St Unit 2 (Timothy Higgins; Guarantor Amy Imbriale)</h1>
 <div id="main"><form id="f" novalidate autocomplete="off"><div class="card">
 <p><strong>Lease version:</strong> <span id="ver"></span></p>
-<p>Countersigning the lease and Guaranty Addendum signed by the tenant and guarantor. <a href="../" target="_blank" rel="noopener">Read the full lease</a></p>
+<p>Countersigning the lease, the Roommate / Sublease Addendum (one approved roommate maximum), and the Guaranty Addendum, as signed by the tenant and guarantor. <a href="../" target="_blank" rel="noopener">Read the full lease</a></p>
 <label>Printed name<input type="text" name="landlord_printed_name" class="req full" value="Arthur Aguilar"></label>
 <label>Title<input type="text" name="landlord_title" class="req full" value="Manager, for 9222 N 6th, LLC or Pilar Polanco"></label>
 <label>Date<input type="date" name="countersigned_date" id="dt" class="req full"></label>
@@ -29,7 +29,7 @@ canvas{border:3px dashed #1565c0;background:#fff;width:100%;height:180px;touch-a
 </div></form></div>
 <div id="thanks" class="card" style="display:none;text-align:center"><h2>Thank you!</h2><p>Your countersignature was sent. You can close this page.</p></div>
 <script>
-const VERSION='lease-v1.0-higgins-9222N6th-U2-2026-11-20';ver.textContent=VERSION;
+const VERSION='lease-v1.1-higgins-9222N6th-U2-roommate-2026-11-21';ver.textContent=VERSION;
 const TEST=new URLSearchParams(location.search).has('test');
 const d=new Date();dt.value=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
 const c=sig,x=c.getContext('2d');let drew=false,down=false;
@@ -46,7 +46,7 @@ let msg=[];if(bad.length)msg.push('fill in every highlighted box');if(!agree.che
 if(msg.length){st.textContent='Please '+msg.join(', ')+'.';return}
 st.style.color='#1565c0';st.textContent='Sending... please wait';go.disabled=true;
 const o=document.createElement('canvas');o.width=500;o.height=Math.round(500*c.height/c.width);const ox=o.getContext('2d');ox.fillStyle='#fff';ox.fillRect(0,0,o.width,o.height);ox.drawImage(c,0,0,o.width,o.height);
-const data={_subject:(TEST?'TEST - ':'')+'Landlord Countersignature - Higgins - 9222 N 6th St Unit 2',_template:'table',_captcha:'false',lease_version:VERSION,lease_url:new URL('../',location.href).href,submitted_at:new Date().toString(),countersign_confirmed:'YES'};
+const data={_subject:(TEST?'TEST - ':'')+'Landlord Countersignature - Higgins - 9222 N 6th St Unit 2',_template:'table',_captcha:'false',lease_version:VERSION,lease_url:new URL('../',location.href).href,submitted_at:new Date().toString(),countersign_confirmed:'YES',documents:'Lease + Roommate / Sublease Addendum + Guaranty Addendum'};
 new FormData(f).forEach((v,k)=>data[k]=String(v).trim());
 data.landlord_signature=o.toDataURL('image/jpeg',0.7);data.user_agent=navigator.userAgent;
 try{const r=await fetch('https://formsubmit.co/ajax/sgtaguilar2@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});const j=await r.json();
