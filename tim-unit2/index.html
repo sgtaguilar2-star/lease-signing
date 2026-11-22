@@ -226,9 +226,9 @@ c.onpointerup=c.onpointercancel=()=>s.down=false;s.rs();pads[id]=s;return s}
 pad('tsig');pad('gsig');
 document.querySelectorAll('[data-clr]').forEach(b=>b.onclick=()=>{const s=pads[b.dataset.clr];s.x.clearRect(0,0,s.c.width,s.c.height);s.drew=false});
 let role='b';
-document.querySelectorAll('input[name=role]').forEach(r=>r.onchange=()=>{role=r.value;document.body.className='r-'+role;setTimeout(()=>{pads.tsig.rs();pads.gsig.rs()},50)});
+role=(document.querySelector('input[name=role]:checked')||{value:'b'}).value;document.body.className='r-'+role;document.querySelectorAll('input[name=role]').forEach(r=>r.onchange=()=>{role=r.value;document.body.className='r-'+role;setTimeout(()=>{pads.tsig.rs();pads.gsig.rs()},50)});
 function img(s){const o=document.createElement('canvas');o.width=500;o.height=Math.round(500*s.c.height/s.c.width);const ox=o.getContext('2d');ox.fillStyle='#fff';ox.fillRect(0,0,o.width,o.height);ox.drawImage(s.c,0,0,o.width,o.height);return o.toDataURL('image/jpeg',0.7)}
-f.onsubmit=async e=>{e.preventDefault();const T=role!='g',G=role!='t';let bad=[];
+f.onsubmit=async e=>{e.preventDefault();role=(document.querySelector('input[name=role]:checked')||{value:'b'}).value;document.body.className='r-'+role;const T=role!='g',G=role!='t';let bad=[];
 const sel=[T?'.treq':null,G?'.greq':null].filter(Boolean).join(',');
 document.querySelectorAll('.treq,.greq').forEach(i=>i.classList.remove('bad'));
 document.querySelectorAll(sel).forEach(i=>{const ok=i.value.trim()!==''&&(i.type!='email'||/^\S+@\S+\.\S+$/.test(i.value))&&(i.type!='tel'||i.value.replace(/\D/g,'').length>=10);i.classList.toggle('bad',!ok);if(!ok)bad.push(i)});
