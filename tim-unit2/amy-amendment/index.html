@@ -21,23 +21,34 @@ canvas{border:3px dashed #1565c0;background:#fff;width:100%;height:180px;touch-a
 <li><strong>Section 7 (Guests).</strong><div class='q'>New wording: “Guests may stay overnight only at Landlord&#x27;s discretion, and Landlord may limit or end any guest&#x27;s stay.”</div><div class='q'>This replaces the former wording: “Guests may not stay more than 14 days total in any 6-month period without Landlord&#x27;s written approval.”</div></li>
 <li><strong>Roommate / Sublease Addendum, item 1 (One roommate maximum).</strong><div class='q'>Added wording: “Once approved, the Roommate may stay for as long as Tenant wants the Roommate there, up to the end of Tenant&#x27;s tenancy. Guest-stay limits do not apply to the approved Roommate.”</div></li>
 <li><strong>Early possession (Key Terms and Section 2).</strong><div class='q'>New wording: “Tenant may take possession of the Premises beginning Friday, November 27, 2026, at no additional charge, once the full move-in amount has been received.”</div><div class='q'>The former date was Monday, November 30, 2026.</div></li>
-<li><strong>Utilities (Sections 2 and 6).</strong><div class='q'>New wording: “Tenant is responsible for utilities in Tenant&#x27;s name, including electric, beginning November 27, 2026.”</div><div class='q'>New wording: “…sets them up in Tenant&#x27;s name starting November 27, 2026.”</div><div class='q'>The former date in both places was November 30, 2026.</div></li>
-</ol><p><strong>Guarantor has reviewed these changes and consents to them. Guarantor&#x27;s guaranty remains in full force and applies to the Lease as amended. All other terms of the Lease are unchanged.</strong></p></div>
+<li><strong>Utilities (Sections 2 and 6).</strong><div class='q'>New wording: “Tenant is responsible for utilities in Tenant&#x27;s name, including electric, beginning December 1, 2026.”</div><div class='q'>New wording: “…sets them up in Tenant&#x27;s name starting December 1, 2026.”</div><div class='q'>The former date in both places was November 30, 2026 in the Lease when Guarantor signed, and November 27, 2026 in the Lease when Tenant signed.</div></li>
+</ol><p><strong>Guarantor has reviewed these changes and consents to them. Guarantor&#x27;s guaranty remains in full force and applies to the Lease as amended. All other terms of the Lease are unchanged.</strong></p><p><strong>Tenant has reviewed these changes and agrees to them.</strong></p></div>
 <form id="f" novalidate autocomplete="off"><div class="card">
-<h2>Guarantor Signature</h2>
-<label>Full legal name<input type="text" name="guarantor_full_name" class="req full" value="Amy Imbriale"></label>
-<div class="ini"><label>Guarantor initials <input name="guarantor_initials" class="req initial" maxlength="4" placeholder="___"></label></div>
-<label style="display:block;margin:10px 0"><input type="checkbox" id="agree" style="transform:scale(1.5);margin-right:10px">I have reviewed these changes and consent to them. My guaranty remains in full force and applies to the Lease as amended.</label>
+<h2>Signature</h2>
+<p style="font-weight:600;margin-bottom:4px">Who is signing?</p>
+<label style="display:block;margin:6px 0"><input type="radio" name="signer_role" value="Guarantor" style="transform:scale(1.4);margin-right:10px">Amy Imbriale (Guarantor)</label>
+<label style="display:block;margin:6px 0 12px"><input type="radio" name="signer_role" value="Tenant" style="transform:scale(1.4);margin-right:10px">Timothy Higgins (Tenant)</label>
+<div id="fields" style="display:none">
+<label>Full legal name<input type="text" name="full_name" id="nm" class="req full"></label>
+<div class="ini"><label><span id="inilbl">Initials</span> <input name="initials" class="req initial" maxlength="4" placeholder="___"></label></div>
+<label style="display:block;margin:10px 0"><input type="checkbox" id="agree" style="transform:scale(1.5);margin-right:10px"><span id="agreetxt"></span></label>
 <p style="color:#1565c0;font-weight:700;margin-bottom:4px">&#9997; Sign inside the box with your finger or mouse</p>
 <canvas id="sig"></canvas><button type="button" id="clr">Clear signature</button>
 <label style="display:block;margin-top:10px">Date<input type="date" name="signed_date" id="dt" class="req full"></label>
+</div>
 <p id="st"></p><button type="submit" id="go">Submit Signed Acknowledgment</button>
 </div></form></div>
 <div id="thanks" class="card" style="display:none;text-align:center"><h2>Thank you!</h2><p>Your signed acknowledgment was sent to the Landlord. You can close this page.</p></div>
 <script>
-const VERSION='amendment-ack-higgins-9222N6th-U2-2026-11-23';
+const VERSION='amendment-ack-v2-higgins-9222N6th-U2-2026-11-23';
 const TEST=new URLSearchParams(location.search).has('test');
 const d=new Date();dt.value=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const NAMES={Guarantor:'Amy Imbriale',Tenant:'Timothy Higgins'};
+const AGREE={Guarantor:'I have reviewed these changes and consent to them. My guaranty remains in full force and applies to the Lease as amended.',Tenant:'I have reviewed these changes and agree to them.'};
+const role=()=>{const r=document.querySelector('input[name=signer_role]:checked');return r?r.value:''};
+function applyRole(){const r=role();fields.style.display=r?'block':'none';if(!r)return;nm.value=NAMES[r];inilbl.textContent=r+' initials';agreetxt.textContent=AGREE[r];agree.checked=false;f.initials.value='';x&&x.clearRect(0,0,sig.width,sig.height);drew=false;setTimeout(rs,0)}
+document.querySelectorAll('input[name=signer_role]').forEach(r=>r.addEventListener('change',applyRole));
+window.addEventListener('pageshow',()=>{document.querySelectorAll('input[name=signer_role]').forEach(r=>r.checked=false);applyRole()});
 const c=sig,x=c.getContext('2d');let drew=false,down=false;
 function rs(){const b=c.getBoundingClientRect();c.width=b.width*2;c.height=b.height*2;x.setTransform(2,0,0,2,0,0);x.lineWidth=2.5;x.lineCap='round';x.lineJoin='round';x.strokeStyle='#000';drew=false}rs();
 const p=e=>{const b=c.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
@@ -45,16 +56,17 @@ c.onpointerdown=e=>{down=true;c.setPointerCapture(e.pointerId);x.beginPath();x.m
 c.onpointermove=e=>{if(!down)return;x.lineTo(...p(e));x.stroke();drew=true};
 c.onpointerup=c.onpointercancel=()=>down=false;
 clr.onclick=()=>{x.clearRect(0,0,c.width,c.height);drew=false};
-f.onsubmit=async e=>{e.preventDefault();let bad=[];
-document.querySelectorAll('.req').forEach(i=>{const ok=i.value.trim()!=='';i.classList.toggle('bad',!ok);if(!ok)bad.push(i)});
+f.onsubmit=async e=>{e.preventDefault();let bad=[];const R=role();
+if(!R){st.style.color='#c62828';st.textContent='Please choose who is signing.';return}
+document.querySelectorAll('#fields .req').forEach(i=>{const ok=i.value.trim()!=='';i.classList.toggle('bad',!ok);if(!ok)bad.push(i)});
 c.classList.toggle('bad',!drew);
 let msg=[];if(bad.length)msg.push('fill in every highlighted box ('+bad.length+')');if(!agree.checked)msg.push('check the consent box');if(!drew)msg.push('sign in the signature box');
 if(msg.length){st.style.color='#c62828';st.textContent='Please '+msg.join(', ')+'.';(bad[0]||c).scrollIntoView({behavior:'smooth',block:'center'});return}
 st.style.color='#1565c0';st.textContent='Sending... please wait';go.disabled=true;
 const o=document.createElement('canvas');o.width=500;o.height=Math.round(500*c.height/c.width);const ox=o.getContext('2d');ox.fillStyle='#fff';ox.fillRect(0,0,o.width,o.height);ox.drawImage(c,0,0,o.width,o.height);
-const data={_subject:(TEST?'TEST - ':'')+'Signed Amendment Acknowledgment - Amy Imbriale - 9222 N 6th St Unit 2',_template:'table',_captcha:'false',document_version:VERSION,page_url:location.href.split('?')[0],submitted_at:new Date().toString()};
-new FormData(f).forEach((v,k)=>data[k]=k=='guarantor_initials'?String(v).trim().toUpperCase():String(v).trim());
-data.guarantor_consented_to_amendments='YES';data.guarantor_signature=o.toDataURL('image/jpeg',0.7);data.user_agent=navigator.userAgent;
+const data={_subject:(TEST?'TEST - ':'')+(R=='Tenant'?'Signed Amendment Acknowledgment - Timothy Higgins - 9222 N 6th St Unit 2 (Tenant)':'Signed Amendment Acknowledgment - Amy Imbriale - 9222 N 6th St Unit 2'),_template:'table',_captcha:'false',document_version:VERSION,page_url:location.href.split('?')[0],submitted_at:new Date().toString()};
+new FormData(f).forEach((v,k)=>data[k]=k=='initials'?String(v).trim().toUpperCase():String(v).trim());
+data.signer_role=R;data.consented_to_amendments='YES';data.signature=o.toDataURL('image/jpeg',0.7);data.user_agent=navigator.userAgent;
 try{const r=await fetch('https://formsubmit.co/ajax/sgtaguilar2@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});const j=await r.json();
 if(j.success===true||j.success==='true'){main.style.display='none';thanks.style.display='block';scrollTo(0,0)}else{st.style.color='#c62828';st.textContent='Problem sending: '+(j.message||r.status)+'. Please try again or contact the Landlord.';go.disabled=false}}
 catch(err){st.style.color='#c62828';st.textContent='Problem sending. Check your connection and try again.';go.disabled=false}};
